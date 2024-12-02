@@ -1,0 +1,99 @@
+:root {
+  --body-bcg-light-f: #74b9ff;
+  --body-bcg-light-s: #a29bfe;
+  --body-bcg-dark-f: #2c3e50;
+  --body-bcg-dark-s: #34495e;
+
+  --body-color-light: white;
+  --body-color-dark: #ecf0f1;
+
+  --weather-app-bcg-light: rgba(255, 255, 255, 0.1);
+  --weather-app-bcg-dark: rgba(44, 62, 80, 0.8);
+  --weather-app-shadow-light: rgba(0, 0, 0, 0.2);
+  --weather-app-shadow-dark: rgba(44, 62, 80, 0.5);
+  --weather-app-h1-color-dark: #1abc9c;
+
+  --input-focus-shadow-light: rgba(255, 255, 255, 0.8);
+  --input-focus-shadow-dark: #1abc9c;
+
+  --custom-btn-bcg-light: #55efc4;
+  --custom-btn-bcg-dark: #1abc9c;
+
+  --custom-btn-txt-light: #2d3436;
+  --custom-btn-txt-dark: #2c3e50;
+
+  --custom-btn-bcg-hvr-light: #00cec9;
+  --custom-btn-bcg-hvr-dark: #16a085;
+}
+
+#weather {
+  background: linear-gradient(
+    135deg,
+    var(--body-bcg-light-f),
+    var(--body-bcg-light-s)
+  );
+  color: var(--body-color-light);
+  font-family: "Arial", sans-serif;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-app {
+  background: var(--weather-app-bcg-light);
+  border-radius: 15px;
+  box-shadow: 0 10px 20px var(--weather-app-shadow-light);
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.weather-app h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.weather-app input {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.weather-app input:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--input-focus-shadow-light);
+}
+
+.custom-btn {
+  background-color: var(--custom-btn-bcg-light);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: var(--custom-btn-txt-light);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+  background-color: var(--custom-btn-bcg-hvr-light);
+  color: white;
+}
+
+#popUp{
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.inner{
+background-color: #343444;
+color: white;
+}
+
+.inner .head{
+  background-color: #2f2f3d;
+}

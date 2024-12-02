@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Weather">
+  <link rel="shortcut icon" href="imgs/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <title>Weather</title>
+</head>
+
+<body>
+  <div id="weather">
+    <div class="weather-app">
+      <h1>Weather Finder</h1>
+      <p class="text-capitalize">Check the weather forecast for any country</p>
+      <div>
+        <input type="search" placeholder="Enter country name" id="searchInput">
+        <button type="button" class="btn custom-btn w-100 mt-3">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="popUp" class="position-fixed top-0 start-0 end-0 bottom-0 vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="inner p-2">
+            <div class="head d-flex justify-content-between align-items-center">
+              <span class="day text-capitalize">
+                monday
+              </span>
+              <span class="date text-capitalize bg-success">
+                1 december
+              </span>
+            </div>
+            <div class="body">
+              <div class="title">
+                <h2 class="country">
+                  egypt,assiut
+                </h2>
+                <h3 class="timeUpdate">
+                  <span class="update">update</span>
+                  <span class="time">3:16</span>
+                </h3>
+              </div>
+              <div class="degree">
+                <h2>13 C</h2>
+                <span>clear</span>
+              </div>
+              <div class="air d-flex justify-content-between align-content-center">
+                <p><img src="imgs/icon-umberella.png" alt="Umbrella"> <span>65%</span></p>
+                <p><img src="imgs/icon-wind.png" alt="Wind"> <span>10.4Km/h</span></p>
+                <p><img src="imgs/icon-compass.png" alt="Compass"> <span>NNW</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/all.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/index.js"></script>
+</body>
+
+</html>
