@@ -1,3 +1,7 @@
+body{
+  color: #bfc1c8;
+}
+
 :root {
   --body-bcg-light-f: #74b9ff;
   --body-bcg-light-s: #a29bfe;
@@ -26,6 +30,200 @@
   --custom-btn-bcg-hvr-dark: #16a085;
 }
 
+
+/* Customize Navbar Colors */
+.navbar {
+  background-color: #1c1c2b !important;
+}
+
+.navbar-brand h1 {
+  font-size: 1.5rem;
+  color: #4fc3f7;
+  margin: 0;
+}
+
+.navbar-brand p {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin: 0;
+}
+
+.nav-link {
+  color: #fff !important;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #4fc3f7 !important;
+  border: 1px solid #4fc3f7;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+/* 
+==================================
+- Start Weather Cards
+==================================
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1c1c2b;
+}
+
+.inner{
+  background-image: url('../imgs/banner.png');
+}
+
+.weather-container {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search-bar input {
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.weather-card {
+  background-color: #343444;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  /* height: 130%; */
+}
+
+.weather-card h1 {
+  font-size: 4.5rem;
+  color: #4fc3f7;
+}
+
+.weather-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.weather-card div.date{
+  background-color: #2f2f3d;
+}
+
+/* 
+==================================
+- End Weather Cards
+==================================
+*/
+
+/* 
+==================================
+- Start Footer
+==================================
+*/
+
+.footer {
+  background-color: #1c1c2b;
+  color: #aaa;
+}
+
+.footer .input-group {
+  max-width: 400px;
+  margin: auto;
+}
+
+.footer .form-control {
+  border: none;
+  border-radius: 20px 0 0 20px;
+  background-color: #2c2c3b;
+  color: #fff;
+  padding: 10px;
+}
+
+.footer .btn-primary {
+  border-radius: 0 20px 20px 0;
+  background-color: #4fc3f7;
+  border: none;
+}
+
+.footer .social-icon {
+  color: #4fc3f7;
+  font-size: 1.5rem;
+  margin-left: 15px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer .social-icon:hover {
+  color: #fff;
+}
+
+/* 
+==================================
+- End Footer
+==================================
+*/
+
+/* 
+==================================
+- Start Contact
+==================================
+*/
+
+.goToHome:hover{
+  text-decoration: underline;
+}
+
+.goToHome a{
+  color: #bfc1c8;
+}
+
+.contact-section {
+  padding: 50px 0;
+}
+
+.contact-info {
+  background-color: #2a2a3b;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.contact-info i {
+  color: #4fc3f7;
+  margin-right: 10px;
+}
+
+.contact-form input, .contact-form textarea {
+  background-color: #2a2a3b;
+  color: #d0d0d0;
+  border: none;
+  border-radius: 30px;
+}
+
+.contact-form input::placeholder, .contact-form textarea::placeholder {
+  color: #a0a0a0;
+}
+
+.contact-form button {
+  border-radius: 30px;
+  background-color: #4fc3f7;
+  color: #fff;
+  border: none;
+}
+
+/* 
+==================================
+- End Contact
+==================================
+*/
+
+
+/* 
 #weather {
   background: linear-gradient(
     135deg,
@@ -96,4 +294,4 @@ color: white;
 
 .inner .head{
   background-color: #2f2f3d;
-}
+} */
