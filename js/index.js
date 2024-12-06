@@ -4,7 +4,6 @@
 ===================
 */
 
-
 /*
 ===================
 - Start Call Functions
@@ -43,8 +42,8 @@ function getData(location) {
 
 function displayData(allData) {
   if (allData && allData.current) {
-    const iframe = document.getElementById('weather-iframe');
-    iframe.src = `https://www.google.com/maps/embed/v1/place?key=24156785969741f0915104448240512&q=${allData.location.lat},${allData.location.lon}`
+    const iframe = document.getElementById("weather-iframe");
+    iframe.src = `https://www.google.com/maps/embed/v1/place?key=24156785969741f0915104448240512&q=${allData.location.lat},${allData.location.lon}`;
     // Get Current Day
     let currentDateObject = new Date(allData.current.last_updated),
       currentDayName = currentDateObject.toLocaleDateString("en-US", {
@@ -133,16 +132,6 @@ function displayData(allData) {
   }
 }
 
-
-
-
 // Edite Iframe
-
-
-
-
-
-
-
 
 // https://api.weatherapi.com/v1/current.json?key=24156785969741f0915104448240512&q=London
