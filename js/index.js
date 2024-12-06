@@ -29,6 +29,8 @@ function getData(location) {
     "GET",
     `https://api.weatherapi.com/v1/forecast.json?key=24156785969741f0915104448240512&q=${location}&days=3`
   );
+  // https://api.weatherapi.com/v1/forecast.json?key=24156785969741f0915104448240512&q=30.0444,31.2357&days=3
+
   myHttp.send();
   myHttp.responseType = "json";
   myHttp.addEventListener("load", function () {
@@ -39,15 +41,16 @@ function getData(location) {
     }
   });
 }
-
+alert("done")
 function displayData(allData) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
-      const userLat = position.coords.latitude;
-      const userLon = position.coords.longitude;
-      const iframe = document.getElementById("weather-iframe");
-      // iframe.src = `https://www.google.com/maps/embed/v1/place?key=24156785969741f0915104448240512&q=${userLat},${userLon}`;
+      let userLat = position.coords.latitude;
+      let userLon = position.coords.longitude;
+      let userCity = `${userLat},${userLon}`
+      let iframe = document.getElementById("weather-iframe");
       iframe.src = `https://maps.google.com/maps?q=${userLat},${userLon}&hl=es&z=14&output=embed`;
+      getData(userCity)
       // Get Current Day
       let currentDateObject = new Date(allData.current.last_updated),
         currentDayName = currentDateObject.toLocaleDateString("en-US", {
