@@ -41,47 +41,51 @@ function getData(location) {
 }
 
 function displayData(allData) {
-  if (allData && allData.current) {
-    const iframe = document.getElementById("weather-iframe");
-    iframe.src = `https://www.google.com/maps/embed/v1/place?key=24156785969741f0915104448240512&q=${allData.location.lat},${allData.location.lon}`;
-    // Get Current Day
-    let currentDateObject = new Date(allData.current.last_updated),
-      currentDayName = currentDateObject.toLocaleDateString("en-US", {
-        weekday: "long",
-      }),
-      dayNumber = currentDateObject.getDate(),
-      monthName = currentDateObject.toLocaleDateString("en-US", {
-        month: "long",
-      });
-    let location = allData.location.name,
-      temp = allData.current.temp_c,
-      condition = allData.current.condition.text,
-      humidity = allData.current.humidity,
-      windSpeed = allData.current.wind_kph,
-      windDirection = allData.current.wind_dir,
-      currentIcon = allData.current.condition.icon;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const userLat = position.coords.latitude;
+      const userLon = position.coords.longitude;
+      const iframe = document.getElementById("weather-iframe");
+      // iframe.src = `https://www.google.com/maps/embed/v1/place?key=24156785969741f0915104448240512&q=${userLat},${userLon}`;
+      iframe.src = `https://maps.google.com/maps?q=${userLat},${userLon}&hl=es&z=14&output=embed`;
+      // Get Current Day
+      let currentDateObject = new Date(allData.current.last_updated),
+        currentDayName = currentDateObject.toLocaleDateString("en-US", {
+          weekday: "long",
+        }),
+        dayNumber = currentDateObject.getDate(),
+        monthName = currentDateObject.toLocaleDateString("en-US", {
+          month: "long",
+        });
+      let location = allData.location.name,
+        temp = allData.current.temp_c,
+        condition = allData.current.condition.text,
+        humidity = allData.current.humidity,
+        windSpeed = allData.current.wind_kph,
+        windDirection = allData.current.wind_dir,
+        currentIcon = allData.current.condition.icon;
 
-    // Get Second Day Forecast
-    let secondDateObject = new Date(allData.forecast.forecastday[1].date),
-      secondDayName = secondDateObject.toLocaleDateString("en-US", {
-        weekday: "long",
-      });
-    let secondDayIcon = allData.forecast.forecastday[1].day.condition.icon,
-      secondDayHigh = allData.forecast.forecastday[1].day.maxtemp_c,
-      secondDayLow = allData.forecast.forecastday[1].day.mintemp_c,
-      secondDayCondition = allData.forecast.forecastday[1].day.condition.text;
+      // Get Second Day Forecast
+      let secondDateObject = new Date(allData.forecast.forecastday[1].date),
+        secondDayName = secondDateObject.toLocaleDateString("en-US", {
+          weekday: "long",
+        });
+      let secondDayIcon = allData.forecast.forecastday[1].day.condition.icon,
+        secondDayHigh = allData.forecast.forecastday[1].day.maxtemp_c,
+        secondDayLow = allData.forecast.forecastday[1].day.mintemp_c,
+        secondDayCondition = allData.forecast.forecastday[1].day.condition.text;
 
-    // Get Third Day Forecast
-    let thirdDateObject = new Date(allData.forecast.forecastday[2].date),
-      thirdDayName = thirdDateObject.toLocaleDateString("en-US", {
-        weekday: "long",
-      });
-    let thirdDayIcon = allData.forecast.forecastday[2].day.condition.icon,
-      thirdDayHigh = allData.forecast.forecastday[2].day.maxtemp_c,
-      thirdDayLow = allData.forecast.forecastday[2].day.mintemp_c,
-      thirdDayCondition = allData.forecast.forecastday[2].day.condition.text;
+      // Get Third Day Forecast
+      let thirdDateObject = new Date(allData.forecast.forecastday[2].date),
+        thirdDayName = thirdDateObject.toLocaleDateString("en-US", {
+          weekday: "long",
+        });
+      let thirdDayIcon = allData.forecast.forecastday[2].day.condition.icon,
+        thirdDayHigh = allData.forecast.forecastday[2].day.maxtemp_c,
+        thirdDayLow = allData.forecast.forecastday[2].day.mintemp_c,
+        thirdDayCondition = allData.forecast.forecastday[2].day.condition.text;
 
-    document.getElementById("rowData").innerHTML = `
+      document.getElementById("rowData").innerHTML = `
     <div class="col-md-4 mb-3">
     <div class="weather-card">
       <div class="title">
@@ -129,6 +133,9 @@ function displayData(allData) {
     </div>
   </div>
 `;
+    });
+  } else {
+    console.error("Geolocation is not supported by this browser.");
   }
 }
 
