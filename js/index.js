@@ -165,7 +165,6 @@ function displayMessage(message) {
     </div>
   `;
 }
-alert("new");
 getUserLocation();
 
 let locationInput = document.getElementById("location-input");
@@ -173,3 +172,5 @@ let locationInput = document.getElementById("location-input");
 locationInput.addEventListener("input", (e) => {
   getData(e.target.value);
 });
+
+alert("new1");
