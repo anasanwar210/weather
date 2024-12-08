@@ -148,7 +148,7 @@ let currentDay;
 let apiKey = `24156785969741f0915104448240512`;
 let locationInput = document.getElementById("location-input");
 let rowData = document.getElementById("rowData");
-let isGeolocationLoaded = false; // متغير للتحكم بحالة تحميل بيانات الموقع الجغرافي
+let isGeolocationLoaded = false;
 
 async function getData(location) {
   try {
@@ -164,10 +164,10 @@ async function getData(location) {
     console.log(response);
   } catch (error) {
     console.error(error);
-    rowData.innerHTML = `<p class="error">Unable to retrieve weather data. Please check the location and try again.</p>`;
+    rowData.innerHTML = `<p class="error alert alert-danger">Unable to retrieve weather data. Please check the location and try again.</p>`;
   }
 }
-getData("cairo");
+getData();
 
 function getDetails(apiData) {
   const location = apiData.location.name;
