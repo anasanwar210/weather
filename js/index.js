@@ -4,144 +4,171 @@
 ===================
 */
 
-/*
-===================
-- Start Call Functions
-===================
-*/
+let currentDay;
 
-let locationInput = document.getElementById("location-input");
-locationInput.addEventListener("input", function () {
-  let result = this.value;
-  getData(result);
-});
+let apiKey = `24156785969741f0915104448240512`;
+let userLat, userLon;
 
+let iframe = document.getElementById("weather-iframe");
+iframe.src = `https://maps.google.com/maps?q=${userLat},${userLon}&hl=es&z=14&output=embed`;
+
+async function getData(location) {
+  try {
+    let allData = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
+      ),
+      response = await allData.json();
+    getDetails(response);
+    displayData(response);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+getUserLocation();
 getData("cairo");
 
-/*
-===================
-- End Call Functions
-===================
-*/
-function getData(location) {
-  let myHttp = new XMLHttpRequest();
-  myHttp.open(
-    "GET",
-    `https://api.weatherapi.com/v1/forecast.json?key=24156785969741f0915104448240512&q=${location}&days=3`
-  );
-  // https://api.weatherapi.com/v1/forecast.json?key=24156785969741f0915104448240512&q=30.0444,31.2357&days=3
+function getDetails(apiData) {
+  const location = apiData.location.name;
+  const minTemp = apiData.current.temp_c;
+  const condition = apiData.current.condition.text;
+  const icon = apiData.current.condition.icon;
+  const humidity = apiData.current.humidity;
+  const windSpeed = apiData.current.wind_kph;
+  const windDirection = apiData.current.wind_dir;
 
-  myHttp.send();
-  myHttp.responseType = "json";
-  myHttp.addEventListener("load", function () {
-    if (myHttp.status >= 200 && myHttp.status < 300) {
-      let allData = myHttp.response;
-      console.log(allData);
-      displayData(allData);
-    }
-  });
+  // Get Date
+  const date = new Date(apiData.forecast.forecastday[0].date);
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const dayName = days[date.getDay()];
+  const dayNumber = date.getDate();
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const monthName = months[date.getMonth()];
+  currentDay = [
+    dayName,
+    dayNumber,
+    monthName,
+    location,
+    minTemp,
+    icon,
+    condition,
+    humidity,
+    windSpeed,
+    windDirection,
+  ];
 }
-alert("done")
-function displayData(allData) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      let userLat = position.coords.latitude;
-      let userLon = position.coords.longitude;
-      let userCity = `${userLat},${userLon}`
-      let iframe = document.getElementById("weather-iframe");
-      iframe.src = `https://maps.google.com/maps?q=${userLat},${userLon}&hl=es&z=14&output=embed`;
-      getData(userCity)
-      // Get Current Day
-      let currentDateObject = new Date(allData.current.last_updated),
-        currentDayName = currentDateObject.toLocaleDateString("en-US", {
-          weekday: "long",
-        }),
-        dayNumber = currentDateObject.getDate(),
-        monthName = currentDateObject.toLocaleDateString("en-US", {
-          month: "long",
-        });
-      let location = allData.location.name,
-        temp = allData.current.temp_c,
-        condition = allData.current.condition.text,
-        humidity = allData.current.humidity,
-        windSpeed = allData.current.wind_kph,
-        windDirection = allData.current.wind_dir,
-        currentIcon = allData.current.condition.icon;
 
-      // Get Second Day Forecast
-      let secondDateObject = new Date(allData.forecast.forecastday[1].date),
-        secondDayName = secondDateObject.toLocaleDateString("en-US", {
-          weekday: "long",
-        });
-      let secondDayIcon = allData.forecast.forecastday[1].day.condition.icon,
-        secondDayHigh = allData.forecast.forecastday[1].day.maxtemp_c,
-        secondDayLow = allData.forecast.forecastday[1].day.mintemp_c,
-        secondDayCondition = allData.forecast.forecastday[1].day.condition.text;
-
-      // Get Third Day Forecast
-      let thirdDateObject = new Date(allData.forecast.forecastday[2].date),
-        thirdDayName = thirdDateObject.toLocaleDateString("en-US", {
-          weekday: "long",
-        });
-      let thirdDayIcon = allData.forecast.forecastday[2].day.condition.icon,
-        thirdDayHigh = allData.forecast.forecastday[2].day.maxtemp_c,
-        thirdDayLow = allData.forecast.forecastday[2].day.mintemp_c,
-        thirdDayCondition = allData.forecast.forecastday[2].day.condition.text;
-
-      document.getElementById("rowData").innerHTML = `
+function displayData(response) {
+  let rowData = document.getElementById("rowData");
+  let forecastData = response.forecast.forecastday;
+  rowData.innerHTML = `
     <div class="col-md-4 mb-3">
     <div class="weather-card">
       <div class="title">
         <div class="date p-2 rounded-top-3 d-flex justify-content-between">
-        <span>${currentDayName}</span>
-        <span>${dayNumber} ${monthName}</span></div>
+        <span>${currentDay[0]}</span>
+        <span>${currentDay[1]} ${currentDay[2]}</span>
+        </div>
       </div>
       <div class="body p-2 d-flex flex-column gap-2">
-        <h6>${location}</h6>
-        <h1 class="temp">${temp}°C</h1>
-        <img src="${currentIcon}" class="w-25" alt="Weather Icon">
-        <p class="">${condition}</p>
+        <h6>${currentDay[3]}</h6>
+        <h1 class="temp">${currentDay[4]}°C</h1>
+        <img src="${currentDay[5]}" class="w-25" alt="Weather Icon">
+        <p class="">${currentDay[6]}</p>
         <div class="d-flex justify-content-center">
-          <span class="w-50"><img src="imgs/icon-umberella.png" class="me-1" alt="Umbrella">${humidity}%</span>
-          <span class="w-50"><img src="imgs/icon-wind.png" class="me-1" alt="Wind">${windSpeed}km/h</span>
-          <span class="w-50"><img src="imgs/icon-compass.png" class="me-1" alt="Compass">${windDirection}</span>
+          <span class="w-50"><img src="imgs/icon-umberella.png" class="me-1" alt="Umbrella">${currentDay[7]}%</span>
+          <span class="w-50"><img src="imgs/icon-wind.png" class="me-1" alt="Wind">${currentDay[8]}km/h</span>
+          <span class="w-50"><img src="imgs/icon-compass.png" class="me-1" alt="Compass">${currentDay[9]}</span>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-4 mb-3">
-    <div class="weather-card text-center">
-      <div class="title">
-        <div class="date p-2 rounded-top-3">${secondDayName}</div>
-      </div>
-      <div class="body p-2 py-4 d-flex flex-column gap-2">
-        <h1>${secondDayHigh}°C</h1>
-        <img src="${secondDayIcon}" alt="Weather Icon" class="w-25 m-auto">
-        <p>${secondDayCondition}</p>
-        <p>${secondDayLow}°C</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4 mb-3">
-    <div class="weather-card text-center">
-      <div class="title">
-        <div class="date p-2 rounded-top-3">${thirdDayName}</div>
-      </div>
-      <div class="body p-2 py-4 d-flex flex-column gap-2">
-        <h1>${thirdDayHigh}°C</h1>
-        <img src="${thirdDayIcon}" alt="Weather Icon" class="w-25 m-auto">
-        <p>${thirdDayCondition}</p>
-        <p>${thirdDayLow}°C</p>
-      </div>
-    </div>
-  </div>
-`;
-    });
-  } else {
-    console.error("Geolocation is not supported by this browser.");
+  </div>`;
+
+  for (let i = 1; i < forecastData.length; i++) {
+    const date = new Date(response.forecast.forecastday[i].date);
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayName = days[date.getDay()];
+    let cols = `
+        <div class="col-md-4 mb-3">
+          <div class="weather-card text-center">
+            <div class="title">
+              <div class="date p-2 rounded-top-3">${dayName}</div>
+            </div>
+            <div class="body p-2 py-4 d-flex flex-column gap-2">
+              <h1>${forecastData[i].day.mintemp_c}°C</h1>
+              <img src="${forecastData[i].day.condition.icon}" alt="Weather Icon" class="w-25 m-auto">
+              <p>${forecastData[i].day.condition.text}</p>
+              <p>${forecastData[i].day.maxtemp_c}°C</p>
+            </div>
+          </div>
+        </div>
+    `;
+    rowData.innerHTML += cols;
   }
 }
 
-// Edite Iframe
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+        getData(`${userLat},${userLon}`);
+      },
+      (error) => {
+        console.log("User denied location access or error occurred:", error);
+        displayMessage("Location access is required to display weather data.");
+      }
+    );
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+    displayMessage("Geolocation is not supported by your browser.");
+  }
+}
 
-// https://api.weatherapi.com/v1/current.json?key=24156785969741f0915104448240512&q=London
+function displayMessage(message) {
+  let rowData = document.getElementById("rowData");
+  rowData.innerHTML = `
+    <div class="alert alert-warning text-center">
+      ${message}
+    </div>
+  `;
+}
+
+getUserLocation();
+
+let locationInput = document.getElementById("location-input");
+
+locationInput.addEventListener("input", (e) => {
+  getData(e.target.value);
+});
