@@ -233,7 +233,7 @@ function displayData(response) {
           </div>
         </div>
         <div class="body p-2 d-flex flex-column gap-2">
-          <h6>${currentDay[3]}</h6>
+          <h6>${currentDay[3]}, ${response.location.country}</h6>
           <h1 class="temp">${currentDay[4]}°C</h1>
           <img src="${currentDay[5]}" class="w-25" alt="Weather Icon">
           <p class="">${currentDay[6]}</p>
@@ -287,7 +287,8 @@ if (navigator.geolocation) {
   });
 } else {
   console.error("Geolocation is not supported by this browser.");
-  rowData.innerHTML = `<p class="error">Geolocation is not supported by your browser.</p>`;
+  rowData.innerHTML = `<p class="error">Geolocation is not supported by your browser.</p>
+  <button onclick="getUserLocation()" class="btn btn-warning">Retry Access</button>`;
 }
 
 locationInput.addEventListener("input", (e) => {
