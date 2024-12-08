@@ -100,9 +100,9 @@ function displayData(response) {
           <img src="${currentDay[5]}" class="w-25" alt="Weather Icon">
           <p class="">${currentDay[6]}</p>
           <div class="d-flex justify-content-center">
-            <span class="w-50"><img src="imgs/icon-umberella.png" class="me-1" alt="Umbrella">${currentDay[7]}%</span>
-            <span class="w-50"><img src="imgs/icon-wind.png" class="me-1" alt="Wind">${currentDay[8]}km/h</span>
-            <span class="w-50"><img src="imgs/icon-compass.png" class="me-1" alt="Compass">${currentDay[9]}</span>
+            <span class="w-50 d-flex justify-content-center"><img src="imgs/icon-umberella.png" class="me-1" alt="Umbrella">${currentDay[7]}%</span>
+            <span class="w-50 d-flex justify-content-center"><img src="imgs/icon-wind.png" class="me-1" alt="Wind">${currentDay[8]}km/h</span>
+            <span class="w-50 d-flex justify-content-center"><img src="imgs/icon-compass.png" class="me-1" alt="Compass">${currentDay[9]}</span>
           </div>
         </div>
       </div>
