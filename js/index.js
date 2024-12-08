@@ -143,7 +143,6 @@
 //   getData(e.target.value);
 // });
 
-
 let currentDay;
 let apiKey = `24156785969741f0915104448240512`;
 let locationInput = document.getElementById("location-input");
@@ -152,22 +151,28 @@ let isGeolocationLoaded = false;
 
 async function getData(location) {
   try {
-    let allData = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
-      ),
-      response = await allData.json();
-    if (response.error) {
-      throw new Error(response.error.message);
+    let response = await fetch(
+      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to fetch weather data. Please check the location.");
     }
-    getDetails(response);
-    displayData(response);
-    console.log(response);
+
+    let data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+
+    getDetails(data);
+    displayData(data);
   } catch (error) {
     console.error(error);
-    rowData.innerHTML = `<p class="error alert alert-danger">Unable to retrieve weather data. Please check the location and try again.</p>`;
+    rowData.innerHTML = `<p class="error alert alert-danger">${error.message}</p>
+      <button onclick="getUserLocation()" class="btn btn-warning">Retry Access</button>`;
   }
 }
-getData();
 
 function getDetails(apiData) {
   const location = apiData.location.name;
@@ -178,7 +183,6 @@ function getDetails(apiData) {
   const windSpeed = apiData.current.wind_kph;
   const windDirection = apiData.current.wind_dir;
 
-  // Get Date
   const date = new Date(apiData.forecast.forecastday[0].date);
   const days = [
     "Sunday",
@@ -206,6 +210,7 @@ function getDetails(apiData) {
     "December",
   ];
   const monthName = months[date.getMonth()];
+
   currentDay = [
     dayName,
     dayNumber,
@@ -276,19 +281,26 @@ function displayData(response) {
   }
 }
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition((position) => {
-    if (!isGeolocationLoaded) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      isGeolocationLoaded = true;
-      getData(`${lat},${lon}`);
-    }
-  });
-} else {
-  console.error("Geolocation is not supported by this browser.");
-  rowData.innerHTML = `<p class="error">Geolocation is not supported by your browser.</p>
-  <button onclick="getUserLocation()" class="btn btn-warning">Retry Access</button>`;
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        if (!isGeolocationLoaded) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          isGeolocationLoaded = true;
+          getData(`${lat},${lon}`);
+        }
+      },
+      (error) => {
+        console.error("Error fetching location:", error);
+        rowData.innerHTML = `<p class="error alert alert-warning">Unable to retrieve location. Please allow location access or enter a city name manually.</p>`;
+      }
+    );
+  } else {
+    console.error("Geolocation not supported.");
+    rowData.innerHTML = `<p class="error alert alert-danger">Geolocation is not supported by your browser.</p>`;
+  }
 }
 
 locationInput.addEventListener("input", (e) => {
@@ -298,3 +310,5 @@ locationInput.addEventListener("input", (e) => {
     getData(inputValue);
   }
 });
+
+getUserLocation();
