@@ -1,16 +1,35 @@
-/*
-===================
-- Catch What I Need From Api
-===================
-*/
-
 let currentDay;
-
 let apiKey = `24156785969741f0915104448240512`;
-let userLat, userLon;
+let locationInput = document.getElementById("location-input");
 
-let iframe = document.getElementById("weather-iframe");
-iframe.src = `https://maps.google.com/maps?q=${userLat},${userLon}&hl=es&z=14&output=embed`;
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+        const currentLocation = `${userLat},${userLon}`;
+        getData(currentLocation);
+      },
+      (error) => {
+        console.log("User denied location access or error occurred:", error);
+        displayMessage("Please allow location access to display weather data.");
+      }
+    );
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+    displayMessage("Geolocation is not supported by your browser.");
+  }
+}
+
+function displayMessage(message) {
+  let rowData = document.getElementById("rowData");
+  rowData.innerHTML = `
+    <div class="alert alert-warning text-center">
+      ${message}
+    </div>
+  `;
+}
 
 async function getData(location) {
   try {
@@ -18,6 +37,7 @@ async function getData(location) {
         `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
       ),
       response = await allData.json();
+
     getDetails(response);
     displayData(response);
     console.log(response);
@@ -25,8 +45,6 @@ async function getData(location) {
     console.log(error);
   }
 }
-
-getUserLocation();
 getData("cairo");
 
 function getDetails(apiData) {
@@ -137,39 +155,8 @@ function displayData(response) {
   }
 }
 
-function getUserLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLat = position.coords.latitude;
-        const userLon = position.coords.longitude;
-        const currentLocation = `${userLat},${userLon}`;
-        getData(currentLocation);
-      },
-      (error) => {
-        console.log("User denied location access or error occurred:", error);
-        displayMessage("Location access is required to display weather data.");
-      }
-    );
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-    displayMessage("Geolocation is not supported by your browser.");
-  }
-}
-
-function displayMessage(message) {
-  let rowData = document.getElementById("rowData");
-  rowData.innerHTML = `
-    <div class="alert alert-warning text-center">
-      ${message}
-    </div>
-  `;
-}
-getUserLocation();
-
-let locationInput = document.getElementById("location-input");
-
 locationInput.addEventListener("input", (e) => {
   getData(e.target.value);
 });
-alert("new1");
+
+getUserLocation()
