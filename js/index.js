@@ -143,7 +143,8 @@ function getUserLocation() {
       (position) => {
         const userLat = position.coords.latitude;
         const userLon = position.coords.longitude;
-        getData(`${userLat},${userLon}`);
+        const currentLocation = `${userLat},${userLon}`;
+        getData(currentLocation);
       },
       (error) => {
         console.log("User denied location access or error occurred:", error);
@@ -164,7 +165,7 @@ function displayMessage(message) {
     </div>
   `;
 }
-alert("new")
+alert("new");
 getUserLocation();
 
 let locationInput = document.getElementById("location-input");
