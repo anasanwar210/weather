@@ -78,8 +78,7 @@
 //       dataLoaded = true
 //       let forecastData = response.forecast.forecastday;
 //       let userCity = `${lat},${lon}`;
-//       let iframe = document.getElementById("weather-iframe");
-//       iframe.src = `https://maps.google.com/maps?q=${lat},${lon}&hl=es&z=14&output=embed`;
+
 //       getData(userCity);
 //       rowData.innerHTML = `
 //   <div class="col-md-4 mb-3">
@@ -156,7 +155,9 @@ async function getData(location) {
     );
 
     if (!response.ok) {
-      throw new Error("Unable to fetch weather data. Please check the location.");
+      throw new Error(
+        "Unable to fetch weather data. Please check the location."
+      );
     }
 
     let data = await response.json();
@@ -288,6 +289,8 @@ function getUserLocation() {
         if (!isGeolocationLoaded) {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
+          let iframe = document.getElementById("weather-iframe");
+          iframe.src = `https://maps.google.com/maps?q=${lat},${lon}&hl=es&z=14&output=embed`;
           isGeolocationLoaded = true;
           getData(`${lat},${lon}`);
         }
