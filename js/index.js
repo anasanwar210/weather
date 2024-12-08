@@ -164,7 +164,7 @@ function displayMessage(message) {
     </div>
   `;
 }
-
+alert("new")
 getUserLocation();
 
 let locationInput = document.getElementById("location-input");
