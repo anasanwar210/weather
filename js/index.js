@@ -5,9 +5,8 @@ let rowData = document.getElementById("rowData");
 let isGeolocationLoaded = false;
 
 async function getData(location) {
-  
   try {
-    document.querySelector(".loading").classList.remove("d-none")
+    document.querySelector(".loading").classList.remove("d-none");
     let response = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
     );
@@ -20,14 +19,14 @@ async function getData(location) {
     if (data.error) {
       throw new Error(data.error.message);
     }
-    
+
     getDetails(data);
     displayData(data);
   } catch (error) {
     console.error(error);
     rowData.innerHTML = `<p class="error alert alert-danger">${error.message}</p>`;
-  }finally{
-    document.querySelector(".loading").classList.add("d-none")
+  } finally {
+    document.querySelector(".loading").classList.add("d-none");
   }
 }
 
@@ -51,6 +50,8 @@ function getDetails(apiData) {
     "Saturday",
   ];
   const dayName = days[date.getDay()];
+  const dayName_n = days[date.getDay() + 1];
+  const dayName_nn = days[date.getDay() + 2];
   const dayNumber = date.getDate();
   const months = [
     "January",
@@ -79,11 +80,14 @@ function getDetails(apiData) {
     humidity,
     windSpeed,
     windDirection,
+    dayName_n,
+    dayName_nn,
   ];
 }
 
 function displayData(response) {
   let forecastData = response.forecast.forecastday;
+  let nextForecastDays = [,currentDay[10],currentDay[11]]
   rowData.innerHTML = "";
   rowData.innerHTML += `
     <div class="col-md-4 mb-3">
@@ -109,22 +113,11 @@ function displayData(response) {
     </div>`;
 
   for (let i = 1; i < forecastData.length; i++) {
-    const date = new Date(forecastData[i].date);
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const dayName = days[date.getDay()];
     let cols = `
       <div class="col-md-4 mb-3">
         <div class="weather-card text-center">
           <div class="title">
-            <div class="date p-2 rounded-top-3">${dayName}</div>
+            <div class="date p-2 rounded-top-3">${nextForecastDays[i]}</div>
           </div>
           <div class="body p-2 py-4 d-flex flex-column gap-2">
             <h1>${forecastData[i].day.maxtemp_c}°C</h1>
